@@ -17,15 +17,21 @@ class W3CFeedValidator implements FeedValidatorInterface
      */
     public function validate($feed, $with_results=false)
     {
-        $validator = "http://validator.w3.org/feed/check.cgi?output=soap12&url={$feed}";
-        $response = file_get_contents($validator);
+        try {
+          $validator = "http://validator.w3.org/feed/check.cgi?output=soap12&url={$feed}";
+          $response = file_get_contents($validator);
 
-        $xml = new \DOMDocument();
-        $xml->loadXML($response);
+          $xml = new \DOMDocument();
+          $xml->loadXML($response);
 
-        $validity = $xml->getElementsByTagName('validity');
-        $this->is_valid = $validity->length && $validity->item(0)->nodeValue == 'true';
-        $this->results = $xml;
+          $validity = $xml->getElementsByTagName('validity');
+          $this->is_valid = $validity->length && $validity->item(0)->nodeValue == 'true';
+          $this->results = $xml;
+        } catch (Exception $e) {
+          // not a valid URL?
+          $this->results = "Not a valid URL";
+        }
+
         // return the object, then we can just check both the validity and results if not valid
         if ($with_results) {
           return $this;
