@@ -1,5 +1,5 @@
 {
-    "name": "fungku/markup-validator-php",
+    "name": "paperscissors/markup-validator-php",
     "description": "A markup validator, including RSS and atom feeds.",
     "keywords": ["validate", "markup", "feed", "atom", "rss", "w3c"],
     "license": "Apache-2.0",
